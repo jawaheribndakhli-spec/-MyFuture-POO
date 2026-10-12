@@ -1,42 +1,112 @@
 import java.util.Scanner;
+
 public class Appbank {
+
     public static void main(String[] args) {
-    // les champs de la classe persone:
-   Scanner scanner = new Scanner(System.in);
-   System.out.print("Entez le CIN: ");
-   String cin = scanner.nextLine();
-   System.out.print("Entez le Nom: ");
-   String Nom = scanner.nextLine();
-   System.out.print("Entez le Prénom: ");
-   String Prenom = scanner.nextLine();
-   System.out.print("Entrez le Solde Initial (TND) ");
-   double solde = scanner.nextDouble();
-   final double PLAFOND_RETRAIT = 500.0;
-   // la suite de l'etape 3 s'insère ici...
-   System.out.print(PLAFOND_RETRAIT );
-   int choix;
-   //boucle principale
-   do{
-    System.out.print("\n--- MENU APPBANK ---");
-    System.out.print("1.Consulter le compte ");
-    System.out.print("2.Effectuer un depot");
-    System.out.print("2.Effectuer un retrait");
-    System.out.print("Votre choix(1-4) : ");
-    choix = scanner.nextInt();
-    switch (choix) {
-        case 1:
-            System.out.println("Client   :" + Nom + " " + Prenom + " (CIN : " + cin + ")");
-        System.out.print("N° de compte : " + numeroCompte);
-        System.out.print("solde Actuel : " + solde + "TND");
-        System.out.print("Plafond Max : " + PLAFOND_RETRAIT+ "TND");
-        break;
+
+        Scanner scanner = new Scanner(System.in);
         
+        String cin;
+        String nom;
+        String prenom;
+        String numeroCompte;
+        double solde;
 
+        final double PLAFOND_RETRAIT = 500.0;
 
+        System.out.print("Entrez le CIN : ");
+        cin = scanner.nextLine();
 
-    }
+        System.out.print("Entrez le Nom : ");
+        nom = scanner.nextLine();
 
-   }
+        System.out.print("Entrez le Prénom : ");
+        prenom = scanner.nextLine();
 
+        System.out.print("Entrez le Numéro de Compte : ");
+        numeroCompte = scanner.nextLine();
+
+        System.out.print("Entrez le Solde Initial (TND) : ");
+        solde = scanner.nextDouble();
+
+        int choix;
+        do {
+
+            System.out.println("\n--- MENU APPBANK ---");
+            System.out.println("1. Consulter le compte");
+            System.out.println("2. Effectuer un dépôt");
+            System.out.println("3. Effectuer un retrait");
+            System.out.println("4. Quitter");
+            System.out.print("Votre choix (1-4) : ");
+
+            choix = scanner.nextInt();
+
+            switch (choix) {
+                case 1:
+                    System.out.println("\n--- INFORMATIONS DU COMPTE ---");
+                    System.out.println("Client : " + nom + " " + prenom
+                            + " (CIN : " + cin + ")");
+                    System.out.println("N° de Compte : " + numeroCompte);
+                    System.out.println("Solde Actuel : " + solde + " TND");
+                    System.out.println("Plafond Max : "
+                            + PLAFOND_RETRAIT + " TND");
+                    break;
+                case 2:
+                    System.out.print("\nMontant du dépôt (TND) : ");
+                    double montantDepot = scanner.nextDouble();
+
+                    if (montantDepot > 0) {
+                        solde = solde + montantDepot;
+
+                        System.out.println(
+                                "Dépôt réussi. Nouveau solde : "
+                                        + solde + " TND");
+                    } else {
+                        System.out.println(
+                                "Erreur : Le montant doit être supérieur à 0.");
+                    }
+                    break;
+                case 3:
+                    System.out.print("\nMontant du retrait (TND) : ");
+                    double montantRetrait = scanner.nextDouble();
+
+                    if (montantRetrait <= 0) {
+
+                        System.out.println(
+                                "Erreur : Le montant doit être supérieur à 0.");
+
+                    } else if (montantRetrait > PLAFOND_RETRAIT) {
+
+                        System.out.println(
+                                "Retrait refusé : Dépassement du plafond de "
+                                        + PLAFOND_RETRAIT + " TND.");
+
+                    } else if (montantRetrait > solde) {
+
+                        System.out.println(
+                                "Retrait refusé : Solde insuffisant ("
+                                        + solde + " TND disponibles).");
+
+                    } else {
+
+                        solde = solde - montantRetrait;
+
+                        System.out.println(
+                                "Retrait réussi. Nouveau solde : "
+                                        + solde + " TND");
+                    }
+                    break;
+                case 4:
+                    System.out.println(
+                            "\nMerci d'avoir utilisé AppBank. Au revoir !");
+                    break;
+                default:
+                    System.out.println(
+                            "Choix incorrect, veuillez choisir entre 1 et 4.");
+            }
+
+        } while (choix != 4);
+
+        scanner.close();
     }
 }
